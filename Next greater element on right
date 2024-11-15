@@ -1,0 +1,29 @@
+Traverse the array from right to left, using a stack to keep track of the "next greater elements."
+For each element: Pop elements from the stack until we find a value greater than the current element (or the stack is empty).
+If the stack is empty after popping, add -1 to the result list (no greater element to the right).
+If the stack has elements, add the top element (the next greater element) to the result list.
+Push the current element onto the stack, and finally reverse the result list since we traversed the array from the end.
+
+class Solution {
+    // Function to find the next greater element for each element of the array.
+    public ArrayList<Integer> nextLargerElement(int[] arr) {
+        Stack<Integer> st = new Stack<>();
+        List l = new ArrayList<>();
+        
+        for(int i= arr.length -1; i >= 0; i--) {
+            while(!st.isEmpty() && st.peek() <= arr[i]) {
+                st.pop();
+            }
+            
+            if(st.isEmpty()) {
+                l.add(-1);
+            } else {
+                l.add(st.peek());
+            }
+            st.add(arr[i]);
+            
+        }
+        Collections.reverse(l);
+        return new ArrayList<>(l);
+    }
+}
