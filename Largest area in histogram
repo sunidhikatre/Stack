@@ -1,0 +1,52 @@
+Initialize two stacks to find the nearest smaller element on the left (st1) and right (st2) for each bar in the histogram.
+Traverse the heights array to calculate the index of the nearest smaller element to the left for each bar, using st1 to store indices.
+Traverse the heights array from right to left to find the nearest smaller element to the right for each bar, using st2 to store indices.
+Calculate the width of the rectangle for each bar using the indices stored in l1 (left) and l2 (right), then compute the area by multiplying the height by the width.
+Track and return the maximum area found during the iteration.
+
+
+class Solution {
+    public int largestRectangleArea(int[] heights) {
+        Stack<Integer> st1 = new Stack<>();
+        Stack<Integer> st2 = new Stack<>();
+
+        List<Integer> l1 = new ArrayList<>();
+        List<Integer> l2 = new ArrayList<>();
+        int maxArea = 0;
+
+        for(int i = 0; i < heights.length; i++) {
+            while(!st1.isEmpty() && heights[st1.peek()] >= heights[i]) {
+                st1.pop();
+            }
+            if(st1.isEmpty()) {
+                l1.add(-1);
+            } else {
+                l1.add(st1.peek());
+            }
+            st1.add(i);
+        } 
+
+        for(int i = heights.length-1; i >= 0 ; i--) {
+            while(!st2.isEmpty() && heights[st2.peek()] >= heights[i]) {
+                st2.pop();
+            }
+            if(st2.isEmpty()) {
+                l2.add(heights.length);
+            } else {
+                l2.add(st2.peek());
+            }
+            st2.add(i);
+        } 
+        Collections.reverse(l2);
+
+        for(int i = 0; i < heights.length; i++) {
+            int width = l2.get(i) - l1.get(i) - 1;
+            int height = heights[i];
+
+            maxArea = Math.max(maxArea, width*height);
+        }
+
+        return maxArea;
+
+    }
+}
