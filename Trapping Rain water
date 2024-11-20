@@ -1,0 +1,41 @@
+Calculate the maximum height to the left (maxL[i]) and the maximum height to the right (maxR[i]) for each index.
+For each element, the potential water level at that index is the minimum of maxL[i] and maxR[i].
+If the potential water level is higher than the current height, calculate the trapped water as the difference (minLR[i] - height[i]).
+Accumulate the trapped water at each index to get the total trapped water.
+Return the total trapped water (res).
+
+
+class Solution {
+    public int trap(int[] height) {
+        int n = height.length;
+        int[] maxL = new int[n];
+        int[] maxR = new int[n];
+        int[] minLR = new int[n];
+        int[] trapped = new int[n];
+        int res = 0;
+
+        maxL[0] = height[0];
+        maxR[n-1] = height[n-1];
+
+        for(int i = 1; i < n; i++) {
+            maxL[i] = Math.max(maxL[i - 1], height[i]);
+        }
+
+        for(int i = n-2; i >= 0; i--) {
+            maxR[i] = Math.max(maxR[i+1], height[i]);
+        }
+
+        for(int i = 0; i < n ; i++) {
+            minLR[i] = Math.min(maxL[i], maxR[i]);
+             if(minLR[i] > height[i]) {
+                trapped[i] = minLR[i] - height[i];
+            }  else {
+                trapped[i] = 0;
+            }
+            res += trapped[i];
+
+        }
+
+        return res;
+    }
+}
