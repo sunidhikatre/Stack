@@ -1,0 +1,37 @@
+Initialization: The constructor initializes a queue q using a LinkedList, which will be used to simulate the stack.
+Push Operation: To mimic the stack's LIFO behavior, the push method adds an element to the queue and then moves all the previously inserted elements to the back of the queue.
+Pop Operation: The pop method removes and returns the front element of the queue, simulating stack's pop.
+Top Operation: The top method returns the front element of the queue without removing it, simulating stack's peek.
+Empty Check: The empty method checks if the queue is empty by checking if the front of the queue is null.
+
+
+class MyStack {
+    Queue<Integer> q;
+
+    public MyStack() {
+      q = new LinkedList<>();  
+    }
+    
+    public void push(int x) {
+
+        q.add(x);
+        for(int i = 1; i < q.size(); i++) {
+            q.add(q.remove());
+        }
+    }
+    
+    public int pop() {
+        return q.remove();
+    }
+    
+    public int top() {
+        return q.peek();
+    }
+    
+    public boolean empty() {
+        if(q.peek() == null) {
+            return true;
+        }
+        return false;
+    }
+}
