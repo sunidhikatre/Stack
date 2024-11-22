@@ -1,0 +1,30 @@
+class MyStack {
+    private int[] arr;
+    private int top;
+
+    public MyStack() {
+        arr = new int[1000];
+        top = -1;
+    }
+
+    public void push(int x) {
+        // Your Code
+        
+        try{
+            top++;
+            arr[top]=x;    
+        }
+        catch(ArrayIndexOutOfBoundsException ex){
+            System.out.println("Index Exceeds the Array Size");
+        }
+    }
+
+    public int pop() {
+        if(top == -1) {
+            return -1;
+        }
+        int res = arr[top];
+        top--;
+        return res;
+    }
+}
