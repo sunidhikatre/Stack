@@ -1,0 +1,40 @@
+Initialization: The queue is managed using two pointers, front (points to the first element) and rear (points to the last element).
+Push Operation: Create a new node with the given value. If the queue is empty (rear == null), initialize both front and rear with the new node. Otherwise, append the node to the end (rear.next) and update rear.
+Pop Operation: If the queue is empty (front == null), return -1. Otherwise, store the data at front, move front to the next node, and if front becomes null, reset rear to null.
+Empty Check: The queue is empty when both front and rear are null.
+Structure: This implementation dynamically adjusts memory with each operation, ensuring efficient memory usage.
+
+class MyQueue
+{
+    QueueNode front, rear;
+    
+    //Function to push an element into the queue.
+	void push(int a)
+	{
+       QueueNode newNode = new QueueNode(a); 
+       if(rear == null) {
+           front = rear = newNode;
+           return;
+       }
+       rear.next = newNode;
+       rear = rear.next;
+	}
+	
+    //Function to pop front element from the queue.
+	int pop()
+	{
+       if(front == null) {
+           return -1;
+       } 
+       int popped = front.data;
+       front = front.next;
+       if(front == null) {
+           rear = null;
+       }
+       return popped;
+	}
+}
+
+
+
+
