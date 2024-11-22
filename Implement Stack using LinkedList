@@ -1,0 +1,38 @@
+Define the StackNode class: Represents a node containing data and a reference to the next node.
+Track the top node: Use top to keep track of the current top node of the stack.
+Push operation: Create a new node, link it to the current top, and update top to this new node.
+Pop operation: Remove the top node by updating top to its next node, returning the popped value.
+
+
+Note: aage aage hi add krna
+
+class MyStack {
+    // class StackNode {
+    //     int data;
+    //     StackNode next;
+    //     StackNode(int a) {
+    //         data = a;
+    //         next = null;
+    //     }
+    // }
+    StackNode top;
+
+    // Function to push an integer into the stack.
+    void push(int a) {
+        // Add your code here
+        StackNode temp = new StackNode(a);
+        temp.next = top;
+        top = temp;
+    }
+
+    // Function to remove an item from top of the stack.
+    int pop() {
+        // Add your code here
+        if(top == null) {
+            return -1;
+        }
+        int popped = top.data;
+        top = top.next;
+        return popped;
+    }
+}
