@@ -1,0 +1,36 @@
+Initialize queue: Use an array arr[] to store the elements, and two pointers front and rear to keep track of the queue’s front and rear respectively.
+Push operation: When an element is pushed, assign the element to arr[rear] and increment the rear pointer.
+Pop operation: When an element is popped, check if the queue is empty (front == rear), and if not, return the element at arr[front] and increment the front pointer.
+Queue is empty: If front == rear, return -1 to indicate the queue is empty.
+Time complexity: Both push and pop operations are O(1), ensuring efficient queue
+
+class MyQueue {
+
+    int front, rear;
+	int arr[] = new int[100005];
+
+    MyQueue()
+	{
+		front=0;
+		rear=0;
+	}
+	
+	//Function to push an element x in a queue.
+	void push(int x)
+	{
+	    arr[rear] = x;
+	    rear++;
+	} 
+
+    //Function to pop an element from queue and return that element.
+	int pop()
+	{
+		// Your code here
+		if(front == rear) {
+		    return -1;
+		}
+		int popped = arr[front];
+		front++;
+		return popped;
+	} 
+}
