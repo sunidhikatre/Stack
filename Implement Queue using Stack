@@ -1,0 +1,48 @@
+Use two stacks, s1 for enqueue operations and s2 for dequeue operations.
+Enqueue (push): Push the element directly onto s1.
+Dequeue (pop): If s2 is not empty, pop the top element from s2. Otherwise, transfer all elements from s1 to s2 and then pop from s2.
+Peek: If s2 is not empty, return the top element of s2. Otherwise, transfer elements from s1 to s2 and return the top of s2.
+Empty Check: Return true if both s1 and s2 are empty.
+
+
+class MyQueue {
+    Stack<Integer> s1;
+    Stack<Integer> s2;
+
+    public MyQueue() {
+        s1 = new Stack();
+        s2 = new Stack();
+    }
+    
+    public void push(int x) {
+        s1.push(x);
+    }
+    
+    public int pop() {
+        if(!s2.isEmpty()) {
+            
+        } else {
+            while(s1.size() != 0) {
+                s2.push(s1.pop());
+            }
+        }
+        return s2.pop();
+    }
+    
+    public int peek() {
+        if(!s2.isEmpty()) {
+        } else {
+            while(s1.size() != 0) {
+                s2.push(s1.pop());
+            } 
+        }
+        return s2.peek();
+    }
+    
+    public boolean empty() {
+        if(s1.size() == 0 && s2.size() == 0){
+            return true;
+        }
+        return false;
+    }
+}
