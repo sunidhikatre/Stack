@@ -1,0 +1,75 @@
+Use two monotonic stacks to compute the nearest smaller elements on the left and right for each element in the array:
+
+For SmalleronLeft, use > to ensure previous smaller strictly includes duplicates in their respective ranges.
+For SmalleronRight, use >= to include duplicates for accurate right bounds.
+Calculate the range contribution for each element 
+
+Return the total mod 1,000,000,007, handling integer overflow properly with long.
+
+Edge Case Handling:
+Duplicates are handled by:
+SmalleronLeft: Strict > to ensure left ranges terminate correctly.
+SmalleronRight: Inclusive >= to allow extending the range for duplicate elements.
+Handle bounds (-1 for left and n for right) for indices correctly.
+
+------------------------------------------------------------------------------------------------------------------
+
+
+class Solution {
+    public int sumSubarrayMins(int[] arr) {
+        int[] leftSmaller = Smalleronleft(arr, arr.length);
+        int[] rightSmaller = SmalleronRight(arr, arr.length);
+        int total = 0;
+        int MOD = 1_000_000_007;
+
+        for(int i = 0; i < arr.length; i++) {
+            long left = i - leftSmaller[i];
+            long right = rightSmaller[i] - i;
+            total += (left * right % MOD) * arr[i] % MOD;
+            total %= MOD;        
+        }
+        return total;
+    }
+
+    public int[] Smalleronleft(int arr[], int n) {
+        // Complete the function
+        Stack<Integer> st = new Stack<>();
+        int[] res = new int[n];
+        
+        for(int i=0; i< n; i++) {
+            while(st.size() > 0 && arr[st.peek()] >= arr[i]) {
+                st.pop();
+            }
+            
+            if(st.isEmpty()) {
+                res[i] = -1;
+            } else {
+                res[i] = st.peek();
+            }
+            st.push(i);
+        }      
+        return res;
+    }
+
+    public int[] SmalleronRight(int arr[], int n) {
+        // Complete the function
+        Stack<Integer> st = new Stack<>();
+        int[] res = new int[n];
+        
+        for(int i = n-1; i >= 0; i--) {
+            while(st.size() > 0 && arr[st.peek()] > arr[i]) {
+                st.pop();
+            }
+            
+            if(st.isEmpty()) {
+                res[i] = n;
+            } else {
+                res[i] = st.peek();
+            }
+            st.push(i);
+        }
+             
+        return res;
+        
+    }
+}
