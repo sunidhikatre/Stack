@@ -1,0 +1,59 @@
+The goal is to determine if there is a celebrity at the party. A celebrity is defined as someone who is known by everyone but does not know anyone else. The function returns the index of the celebrity if one exists, or -1 if there is no celebrity.
+
+Steps in the Solution
+Initialize Two Pointers:
+
+Start with two pointers: top at the beginning (0) and bottom at the end (mat.length - 1) of the matrix.
+Narrow Down the Candidate:
+
+Use the following logic to eliminate non-celebrity candidates:
+If mat[top][bottom] == 1: top knows bottom, so top cannot be a celebrity. Move top to the next person (top++).
+If mat[bottom][top] == 1: bottom knows top, so bottom cannot be a celebrity. Move bottom to the previous person (bottom--).
+If neither condition holds, neither is a celebrity for sure. Eliminate both by moving top++ and bottom--.
+The loop continues until top and bottom meet. At this point, top is the potential celebrity.
+Verify the Candidate:
+
+If top > bottom after the loop, no celebrity exists, so return -1.
+Otherwise, check if the person at top satisfies the celebrity conditions:
+Row Check: The celebrity should not know anyone (mat[top][j] == 0 for all j except themselves).
+Column Check: Everyone should know the celebrity (mat[j][top] == 1 for all j except themselves).
+Return Result:
+
+If the candidate passes both checks, return top as the celebrity index.
+Otherwise, return -1.
+
+-------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+    // Function to find if there is a celebrity in the party or not.
+    public int celebrity(int mat[][]) {
+        // code here
+        
+        int top = 0;
+        int bottom = mat.length - 1;
+        
+        while(top < bottom) {
+            if(mat[top][bottom] == 1) {
+                top++; 
+            } else if(mat[bottom][top] == 1) {
+                bottom--;
+            } else {
+                top++;
+                bottom--;
+            }
+        }
+        if(top > bottom) {
+            return -1;
+        }
+        for(int j = 0; j < mat.length; j++) {
+            if(j==top){
+                continue;
+            }
+            if(mat[top][j] == 0 && mat[j][top] == 1) {  //check rows is 0 the column everyone should know top
+                continue;
+            } else {
+                return -1;
+            }
+        }
+        return top;
+    }
+}
