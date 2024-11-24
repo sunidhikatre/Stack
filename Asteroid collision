@@ -1,0 +1,40 @@
+Use a stack to simulate collisions between asteroids.
+Push positive asteroids directly onto the stack.
+Handle collisions only when the current asteroid is negative and the top of the stack is positive (st.peek() > 0 ensures they move toward each other).
+Compare absolute values to determine which asteroid survives, and handle equal values by destroying both.
+Construct the result array from the stack after processing all asteroids.
+
+class Solution {
+    public int[] asteroidCollision(int[] asteroids) {
+        boolean destroyed = false;
+        Stack<Integer> st = new Stack<>();
+
+        for(int i = 0; i < asteroids.length; i++) {
+            destroyed = false;
+            while(st.size() > 0 && asteroids[i] < 0 && st.peek() > 0) {
+                if (Math.abs(asteroids[i]) > st.peek()) {
+                    st.pop(); 
+                }
+                else if(st.peek() == Math.abs(asteroids[i])) {
+                    st.pop();
+                    destroyed = true;
+                    break;
+                } else {
+                    destroyed = true;
+                    break;
+                }
+            }
+            if(!destroyed){
+               st.push(asteroids[i]);
+            }
+
+        }
+       
+        int[] res = new int[st.size()];
+        for (int i = res.length - 1; i >= 0; i--) {
+            res[i] = st.pop();
+        }
+
+        return res;
+    }
+}
