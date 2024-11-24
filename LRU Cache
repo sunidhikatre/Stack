@@ -1,0 +1,78 @@
+Design: Use a HashMap for fast key-value lookups and a Doubly Linked List to maintain the order of access (most recently used to least recently used).
+
+Initialization: The doubly linked list has a dummy head and tail for easy insertion and removal, and the cache has a fixed capacity.
+
+Get Operation: Check if the key exists in the map. If it does, move the corresponding node to the head (most recently used) and return its value. If not, return -1.
+
+Put Operation: If the key exists, update its value and move it to the head. If it doesn’t exist and the cache is full, evict the least recently used node (tail's previous node) and add the new key-value pair to the head.
+
+Helper Methods: add(node) inserts a node right after the head, and remove(node) removes a node from the doubly linked list for efficient operations.
+
+Overall time complexity: O(1).
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+class Node {
+    Node prev, next;
+    int key, value;
+
+    Node(int key, int value) {
+        this.key = key;
+        this.value = value;
+    }
+}
+
+class LRUCache {
+    int capacity;
+    Map<Integer, Node> map = new HashMap<>();
+    Node head = new Node(0, 0);
+    Node tail = new Node(0, 0);
+
+    public LRUCache(int capacity) {
+        this.capacity = capacity;
+        head.next = tail;
+        tail.prev = head;
+    }
+    
+    public int get(int key) {
+        if(!map.containsKey(key)) {
+            return -1;
+        }
+        
+        Node node = map.get(key);
+        remove(node);
+        add(node);
+        return node.value;
+    }
+    
+    public void put(int key, int value) {
+        if(map.containsKey(key)) {
+            Node node = map.get(key);
+            node.value = value;
+            remove(node);
+            add(node);
+        } else {
+            if(map.size() == capacity) {
+                Node node = tail.prev;
+                map.remove(node);
+                remove(node);
+            }
+            Node node = new Node(key, value);
+            map.put(key, node);
+            add(node);
+        }
+    }
+
+    private void remove(Node node) {
+        map.remove(node.key);
+        node.prev.next = node.next;
+        node.next.prev = node.prev;
+    }
+
+    private void add(Node node) {
+        map.put(node.key, node);
+        node.next = head.next;
+        head.next = node;
+        node.next.prev = node;
+        node.prev = head;
+
+    }
+}
